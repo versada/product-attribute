@@ -9,7 +9,7 @@ from .. import hooks
 
 class TestProductMultiImage(common.TransactionCase):
     def setUp(self):
-        super(TestProductMultiImage, self).setUp()
+        super().setUp()
         self.transparent_image = (  # 1x1 Transparent GIF
             b"R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
         )
@@ -87,8 +87,8 @@ class TestProductMultiImage(common.TransactionCase):
         ]
         self.assertEqual(len(self.product_1.image_ids), 2)
         self.assertEqual(len(self.product_2.image_ids), 1)
-        self.assertEqual(self.product_1.image, self.transparent_image)
-        self.assertEqual(self.product_2.image, self.black_image)
+        self.assertEqual(self.product_1.image_1920, self.transparent_image)
+        self.assertEqual(self.product_2.image_1920, self.black_image)
 
     def test_add_image_variant(self):
         self.product_1.image_ids = [
@@ -119,18 +119,6 @@ class TestProductMultiImage(common.TransactionCase):
         self.product_1.image_ids[0].name = text
         self.product_template.refresh()
         self.assertEqual(self.product_template.image_ids[0].name, text)
-
-    def test_edit_main_image(self):
-        self.product_1.image = self.grey_image
-        self.assertEqual(self.product_1.image_ids[0].image_main, self.grey_image)
-        self.assertEqual(self.product_template.image_ids[0].image_main, self.grey_image)
-
-    def test_remove_main_image(self):
-        self.product_1.image = False
-        self.assertEqual(len(self.product_1.image_ids), 1)
-        self.assertEqual(
-            self.product_template.image_ids[0].product_variant_ids, self.product_2
-        )
 
     def test_create_variant_afterwards(self):
         """Create a template, assign an image, and then create the variant.
