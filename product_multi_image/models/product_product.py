@@ -31,6 +31,12 @@ class ProductProduct(models.Model):
             )
             product.image_ids = [(6, 0, images.ids)]
 
+            product.image_1920 = (
+                product.image_ids
+                and product.image_ids[0].with_context(bin_size=False).image_main
+                or False
+            )
+
     def _inverse_image_ids(self):
         for product in self:
             # Remember the list of images that were before changes
