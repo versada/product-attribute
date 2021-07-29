@@ -31,6 +31,20 @@ class ProductProduct(models.Model):
             )
             product.image_ids = [(6, 0, images.ids)]
 
+            # HACK:
+            # image_1920 is a computed field, originaly stored as main product.product field
+            # it is taken from setting manually or from product.template .
+            # In product_multi_image, it should be set from first image of the widget
+            # In _inverse_image_ids image_1920 is set, but it does not work in all cases
+            # There is a need to recompute it, however for some reason overriding
+            # the _compute_image_1920 function does not work.
+            # Assigning it after image_ids are computed works in all cases
+            product.image_1920 = (
+                product.image_ids
+                and product.image_ids[0].with_context(bin_size=False).image_main
+                or False
+            )
+
     def _inverse_image_ids(self):
         for product in self:
             # Remember the list of images that were before changes

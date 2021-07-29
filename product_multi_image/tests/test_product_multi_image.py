@@ -183,7 +183,7 @@ class TestProductMultiImage(common.TransactionCase):
         self.assertEqual(len(self.product_template.image_ids), 1)
 
     def test_image_product_variant_count(self):
-        """ It should provide a total of variants related to image """
+        """It should provide a total of variants related to image"""
         image = self.product_1.image_ids[0]
         image.product_variant_ids = [(6, 0, self.product_1.ids)]
         self.assertEqual(
@@ -192,7 +192,7 @@ class TestProductMultiImage(common.TransactionCase):
         )
 
     def test_pre_init_hook_product(self):
-        """ It should populate the ``image_ids`` on existing product """
+        """It should populate the ``image_ids`` on existing product"""
         product = self.env.ref("product.product_product_3")
         self.assertEqual(
             len(product.image_ids),
@@ -200,7 +200,7 @@ class TestProductMultiImage(common.TransactionCase):
         )
 
     def test_pre_init_hook_template(self):
-        """ It should populate the ``image_ids`` on existing template """
+        """It should populate the ``image_ids`` on existing template"""
         product = self.env.ref("product.product_product_3_product_template")
         self.assertEqual(
             len(product.image_ids),
@@ -208,7 +208,7 @@ class TestProductMultiImage(common.TransactionCase):
         )
 
     def test_uninstall_hook_product(self):
-        """ It should remove ``image_ids`` associated with products """
+        """It should remove ``image_ids`` associated with products"""
         hooks.uninstall_hook(self.env.cr, self.registry)
         images = self.env["base_multi_image.image"].search(
             [("owner_model", "=", "product.product")],
@@ -216,7 +216,7 @@ class TestProductMultiImage(common.TransactionCase):
         self.assertFalse(len(images))
 
     def test_uninstall_hook_teplate(self):
-        """ It should remove ``image_ids`` associated with templates """
+        """It should remove ``image_ids`` associated with templates"""
         hooks.uninstall_hook(self.env.cr, self.registry)
         images = self.env["base_multi_image.image"].search(
             [("owner_model", "=", "product.template")],
