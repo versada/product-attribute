@@ -12,7 +12,6 @@
     "author": "Akretion,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/product-attribute",
     "depends": ["product"],
-    "excludes": ["product_default_image"],
-    "data": ["views/product_view.xml"],
+    "data": ["views/product.xml"],
     "installable": True,
 }
